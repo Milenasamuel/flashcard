@@ -1,1 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Baleias</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Quicksand:wght@500;700&display=swap');
 
+        :root {
+            --bg-color: #f0f7f4;
+            --card-front-bg: #e0f2fe;
+            --card-back-bg: #fef08a;
+            --text-color: #334155;
+            --accent-blue: #bae6fd;
+            --accent-pink: #fbcfe8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Título customizado com ondas no fundo */
+        .titulo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .titulo-principal {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: #0369a1;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ondinhas {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 25px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,42.4V0Z' style='fill:%23bae6fd; opacity:.5;'%3E%3C/path%3E%3Cpath d='M0,0V15.81c13,10.51,28.56,20.66,45.1,28.47,40.1,19,85.55,27.18,129,24,62.88-4.6,121.75-28.1,185.05-31.67,61.42-3.48,122.9,13.8,181.55,30.34,51.83,14.64,103.4,22.42,156.6,13.23,26.7-4.62,51.64-13.63,77.5-22.65C869,9.81,960.5-12,1200,32.22V0Z' style='fill:%23bae6fd;'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: 1;
+        }
+
+        /* Grid dos Flashcards */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            max-width: 1000px;
+            perspective: 1000px;
+        }
+
+        /* Estrutura do Flashcard */
+        .flashcard {
+            width: 280px;
+            height: 380px;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+
+        .flashcard:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 4px solid #fff;
+        }
+
+        /* Face da Frente */
+        .card-front {
+            background-color: var(--card-front-bg);
+            color: #0c4a6e;
+        }
+
+        .card-front .icone {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+
+        .card-front h3 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .dica {
+            font-size: 0.85rem;
+            margin-top: 20px;
+            color: #64748b;
+            background: rgba(255,255,255,0.5);
+            padding: 5px 12px;
+            border-radius: 12px;
+        }
+
+        /* Face de Trás */
+        .card-back {
+            background-color: var(--card-back-bg);
+            color: #713f12;
+            transform: rotateY(180deg);
+        }
+
+        .card-back p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Variações de cores pastéis para cada card */
+        .card-1 .card-front { background-color: #e0f2fe; }
+        .card-1 .card-back { background-color: #ffedd5; }
+
+        .card-2 .card-front { background-color: #fce7f3; }
+        .card-2 .card-back { background-color: #e0e7ff; }
+
+        .card-3 .card-front { background-color: #dcfce7; }
+        .card-3 .card-back { background-color: #fef9c3; }
+
+    </style>
+</head>
+<body>
+
+    <div class="titulo-container">
+        <h1 class="titulo-principal">Mundo das Baleias</h1>
+        <div class="ondinhas"></div>
+    </div>
+
+    <div class="grid-container">
+
+        <div class="flashcard card-1">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="icone">🐋</div>
+                    <h3>Baleia-Azul</h3>
+                    <span class="dica">Passe o mouse para revelar</span>
+                </div>
+                <div class="card-back">
+                    <p>É o maior animal do planeta Terra! Pode chegar a medir até 30 metros de comprimento e pesar o mesmo que cerca de 33 elefantes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard card-2">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="icone">🎵</div>
+                    <h3>Baleia-Jubarte</h3>
+                    <span class="dica">Passe o mouse para revelar</span>
+                </div>
+                <div class="card-back">
+                    <p>São famosas por seus saltos espetaculares fora d'água e pelos seus "cantos" complexos, que os machos usam para se comunicar e que podem durar horas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard card-3">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="icone">🌊</div>
+                    <h3>Alimentação</h3>
+                    <span class="dica">Passe o mouse para revelar</span>
+                </div>
+                <div class="card-back">
+                    <p>Muitas das maiores baleias não têm dentes! Elas possuem placas de barba (que parecem cerdas de escova) para filtrar pequenos crustáceos chamados Krill da água.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
